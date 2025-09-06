@@ -1,0 +1,140 @@
+🚀 Project Overview: PrivGuard-Lite
+
+Theme Fit: Cybersecurity vs Privacy: Balancing National Security and Individual Rights
+
+This project demonstrates how security monitoring can be done without exposing private information of users, by anonymizing data with cryptographic pseudonyms.
+It shows a practical middle ground:
+
+Authorities can still detect threats (national security ✅)
+
+Individuals’ personal info is hidden (privacy ✅).
+
+🎯 Problem
+
+Security teams need to analyze user activity logs to detect suspicious behavior (brute-force attacks, data exfiltration, odd login patterns, etc.).
+
+But logs contain private data (usernames, IPs, devices) → If leaked, this becomes a privacy nightmare.
+
+Challenge: How can we monitor activity without revealing sensitive identities?
+
+💡 Solution: PrivGuard-Lite
+
+A lightweight log analysis tool that:
+
+Anonymizes usernames & IP addresses → using HMAC-SHA256 with a secret key.
+
+Generates alerts for suspicious activity based on simple rules.
+
+Produces a professional HTML report → with tables, colors, and graphs (Chart.js).
+
+Balance:
+
+Logs are pseudonymized → privacy protected.
+
+Patterns/alerts are preserved → national security maintained.
+
+⚙️ How it Works (Step-by-Step)
+1. Input
+
+A log file (sample_logs.txt) with entries like:
+
+2025-09-05T01:23:45Z user=alice ip=192.168.0.1 action=login status=failed
+2025-09-05T01:25:00Z user=alice ip=192.168.0.1 action=login status=success
+2025-09-05T02:00:00Z user=charlie ip=10.0.0.5 action=upload size=500MB
+
+2. Pseudonymization
+
+Real alice → pseudonym USR_a1b2c3d4e5f6
+
+Real 192.168.0.1 → pseudonym IP_9f8e7d6c5b4a
+
+📌 Done using HMAC (Hash-based Message Authentication Code) with a secret key (Browniee_2019).
+This ensures only the system owner can consistently reproduce pseudonyms.
+
+3. Rule-Based Detection
+
+The system applies simple heuristics on the pseudonymized data:
+
+Brute-force login attempts → 3+ failed logins within 10 mins.
+
+Odd-hour login → successful login between midnight–4 AM.
+
+IP hopping → user logs in from different IPs suddenly.
+
+Large data transfers → download/upload > 100 MB.
+
+Sensitive actions → e.g., password change, record deletion.
+
+4. Output
+
+The tool generates 3 outputs in the output/ folder:
+
+CSV File (anonymized_logs.csv)
+Stores logs with pseudonyms, no personal identifiers.
+
+Mappings File (mappings.json)
+Links real → pseudonym (kept secret, used only if legally required).
+
+HTML Report (privguard_report.html)
+
+Attractive UI (colors, tables).
+
+Alerts clearly listed.
+
+Bar Chart (via Chart.js) → shows distribution of alerts.
+
+📊 Demo Report Features
+
+Table: Timestamp | Alert Type | Pseudouser | Details
+
+Graph: Alerts summary (Brute-force = 3, Large Transfer = 1, etc.)
+
+Logs Table: Anonymized sample entries.
+
+Notes Section: Explains pseudonymization + privacy-preserving design.
+
+🛠️ Tech Stack
+
+Python → data parsing, pseudonymization, detection logic.
+
+HMAC + SHA256 → cryptographic pseudonymization.
+
+CSV + JSON → export structured results.
+
+HTML + CSS + Chart.js → professional-looking final report.
+
+🎯 Why this Project is Unique
+
+Most hackathon projects just detect threats (security only ✅).
+
+This project balances both security + privacy using real techniques (pseudonymization).
+
+Simple enough to demo live → but conceptually strong (judges will love it).
+
+🔑 Secret Key Purpose
+
+Used for HMAC pseudonymization.
+
+Ensures pseudonyms are:
+
+Consistent → same user always gets same pseudonym.
+
+Non-reversible → attackers cannot guess real identity from pseudonym.
+
+Controlled → only you (system owner) can regenerate mappings.
+
+👉 This is the bridge between national security (tracking) and privacy (hiding real names).
+
+📌 Talking Points for Judges
+
+“We anonymize logs with HMAC-SHA256 to preserve privacy.”
+
+“Our detection engine still identifies suspicious activity without needing real names.”
+
+“The HTML report gives both analysts and auditors a clear, privacy-compliant view.”
+
+“This demo shows how we can balance security requirements with individual rights.”
+
+✅ In summary:
+PrivGuard-Lite = Log monitoring + Privacy by Design.
+It’s a practical, innovative hackathon-ready project that hits the theme perfectly.
